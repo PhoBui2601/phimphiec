@@ -1,0 +1,5 @@
+{
+  "name": "Copy",
+  "description": "A modern movie streaming website using Ophim API with user accounts and watch history.",
+  "requestFramePermissions": []
+}

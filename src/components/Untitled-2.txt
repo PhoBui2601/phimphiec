@@ -1,0 +1,139 @@
+swagger: "2.0"
+info:
+  title: IMDbAPI
+  description: IMDb API for accessing movie and TV show data
+  version: 2.7.12
+  contact:
+    name: Telegram Group
+    url: https://t.me/imdbapi
+tags:
+  - name: Title
+    description: Operations related to titles (movies, TV shows, etc.)
+  - name: Name
+    description: Operations related to names (actors, directors, etc.)
+  - name: Interest
+    description: Operations related to interests.
+host: api.imdbapi.dev
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /titles:
+    get:
+      summary: List titles
+      description: Retrieve a list of titles with optional filters.
+      operationId: IMDbAPIService_ListTitles
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/imdbapiListTitlesResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: types
+          description: |-
+            Optional. The type of titles to filter by.
+            If not specified, all types are returned.
+
+             - MOVIE: Represents a movie title.
+             - TV_SERIES: Represents a TV series title.
+             - TV_MINI_SERIES: Represents a TV mini-series title.
+             - TV_SPECIAL: Represents a TV special title.
+             - TV_MOVIE: Represents a TV movie title.
+             - SHORT: Represents a short title.
+             - VIDEO: Represents a video title.
+             - VIDEO_GAME: Represents a video game title.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - MOVIE
+              - TV_SERIES
+              - TV_MINI_SERIES
+              - TV_SPECIAL
+              - TV_MOVIE
+              - SHORT
+              - VIDEO
+              - VIDEO_GAME
+          collectionFormat: multi
+        - name: genres
+          description: |-
+            Optional. The genres to filter titles by.
+            If not specified, titles from all genres are returned.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: countryCodes
+          description: |-
+            Optional. The ISO 3166-1 alpha-2 country codes to filter titles by.
+            If not specified, titles from all countries are returned.
+            Example: "US" for United States, "GB" for United Kingdom.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: languageCodes
+          description: |-
+            Optional. The ISO 639-1 or ISO 639-2 language codes to filter titles by.
+            If not specified, titles in all languages are returned.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: nameIds
+          description: Optional. The IDs of names to filter titles by.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: interestIds
+          description: |-
+            Optional. The IDs of interests to filter titles by.
+            If not specified, titles associated with all interests are returned.
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: startYear
+          description: Optional. The start year for filtering titles.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: endYear
+          description: Optional. The end year for filtering titles.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: minVoteCount
+          description: |-
+            Optional. The minimum number of votes a title must have to be included.
+            If not specified, titles with any number of votes are included.
+            The value must be between 0 and 1,000,000,000.
+            Default is 0.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: maxVoteCount
+          description: |-
